@@ -4,7 +4,7 @@
 
 # Amazon Reviews Sentiment Analysis
 
-This repo contains a notebook for a Sentiment Analysis Model on the Amazon Videogames Reviews dataset.
+This repo contains a notebook for a Sentiment Analysis Model on the Amazon Videogames Reviews dataset (https://www.kaggle.com/bittlingmayer/amazonreviews).
 The main parts of the notebook are:
 1. Data Reading and Cleaning
 2. Small EDA
@@ -12,7 +12,7 @@ The main parts of the notebook are:
 4. PyTorch Model building with HuggingFace APIs (DistilBert Base Uncased model)
 5. Evaluation of the test predictions
 
-## Data and EDA
+## Data and EDA 📊
 
 During this phase a small portion of data, corresponding to the 10% of the dataset, was used in order to train and validate the model. In this way only 360.000 text samples were considered.
 These text were however raw data. In the notebook there is then a preprocessing step that parses the string, extracts the label (0 or 1 for negative and positive, respectively),
@@ -23,13 +23,18 @@ After that, an analysis of the (tokenized) sequence length distribution for the 
 <img src="https://user-images.githubusercontent.com/36633875/148693375-28c812a2-4466-44a2-b107-784f02041933.png" width="35%"></img></br>
 <img src="https://user-images.githubusercontent.com/36633875/148693533-482f5df1-d974-414e-9794-561617d21679.png" width="35%"></img></br>
 
-## Logistic Regression model with TF-IDF
+## Logistic Regression model with TF-IDF 📈
 
 This simple LR model takes as imput some features obtained from the Scikit-Learn callable TfidfVectorizer, that given a text creates: a TF-IDF map for tokens, but also bi and trigrams, and given the presence of a token in the string flags as 1 the corresponding token. Of course this doesn't give any attention to the order of the tokens, so it is a very simple yet powerful model. In fact, it reaches an accuracy of 86% on both training and validation data.
 
 <img src="https://user-images.githubusercontent.com/36633875/148693605-b907a0d5-b61d-41d3-bf9e-db9bc1cb70ab.png" width="60%"></img>
 
-## Using DistilBert HuggingFace APIs
+## Using DistilBert HuggingFace APIs 🤗
 
-After that in order to perform better, I used an Autoconfigured and Pretrained DistilBert model. I built it using PyTorch.
+After that in order to perform better, I used an Autoconfigured and Pretrained DistilBert model. I built it using PyTorch, however one could also use the TensorFlow/Keras framework in order to train this model. 
+In order to speed up the BERT training I used a Smart Batching technique, not using a fixed lenght padding but using the maximum lenght of the current Batch. Also, imposing an ordering on the sequence lenght could further improve the training time.
+
+## Results
+
+The final BERT model achieves a 0.93 of accuracy score on the test data after 2 epochs, against the 0.86 of the plain Logistic Regression Model. 
 
